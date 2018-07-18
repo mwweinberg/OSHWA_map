@@ -40,7 +40,14 @@ print(counter['BGR'])
 # if the country code is in the counter, value = counter
 # if the country code is not in the counter, value = 0
 
+#iterate over the [0] value here (for i if i is between 0 and len(features).... or something)
+holder = country_data["features"][0]["properties"]
+print(holder)
+holder['oshwa_count'] = 3
+print(holder)
 
-#print(country_counter_list)
-#holder = country_data["features"][0]["properties"]
+
+
+
+
 #pprint(holder['ISO_A3'])

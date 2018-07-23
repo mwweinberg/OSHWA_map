@@ -39,13 +39,22 @@ print(counter['BGR'])
 #TODO: add a new element to the json that is oshwa_count: value
 # if the country code is in the counter, value = counter
 # if the country code is not in the counter, value = 0
-
-#iterate over the [0] value here (for i if i is between 0 and len(features).... or something)
+# need to make the updated holder part of the original file
+# need to make the [oshwa_count] value actually based on the data
+for i in range(0, len(country_data["features"])):
+    #outputs something like {'ISO_A3': 'ABW', 'ADMIN': 'Aruba'}
+    holder = country_data["features"][i]["properties"]
+    print(holder)
+    #adds another pair along the lines of
+    #{'ISO_A3': 'ABW', 'oshwa_count': 3, 'ADMIN': 'Aruba'}
+    holder['oshwa_count'] = 3
+    print(holder)
+'''
+#this is just to remember how this works when you are builidng the loop above
 holder = country_data["features"][0]["properties"]
 print(holder)
 holder['oshwa_count'] = 3
-print(holder)
-
+print(holder)'''
 
 
 

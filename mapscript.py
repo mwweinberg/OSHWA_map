@@ -36,18 +36,23 @@ counter = collections.Counter(country_counter_list)
 print(counter)
 print(counter['BGR'])
 
-#TODO: add a new element to the json that is oshwa_count: value
-# if the country code is in the counter, value = counter
-# if the country code is not in the counter, value = 0
-# need to make the updated holder part of the original file
-# need to make the [oshwa_count] value actually based on the data
+#TODO: replace the original holder data with the new holder data
+#probably something like country_data["features"][i]["properties"] =  holder
+#reversing how you pulled the info into the loop in the first place.
 for i in range(0, len(country_data["features"])):
     #outputs something like {'ISO_A3': 'ABW', 'ADMIN': 'Aruba'}
     holder = country_data["features"][i]["properties"]
     print(holder)
+    #if the country code is in the counter list
+    if holder['ISO_A3'] in counter:
+        #make oshwa_count equal to the corresponding value
+        holder['oshwa_count'] = counter[holder['ISO_A3']]
+    else:
+        #make oshwa_count equal to zero
+        holder['oshwa_count'] = 0
     #adds another pair along the lines of
     #{'ISO_A3': 'ABW', 'oshwa_count': 3, 'ADMIN': 'Aruba'}
-    holder['oshwa_count'] = 3
+    #holder['oshwa_count'] = 3
     print(holder)
 '''
 #this is just to remember how this works when you are builidng the loop above

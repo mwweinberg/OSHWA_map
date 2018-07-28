@@ -5,8 +5,11 @@ import json
 from pprint import pprint
 import pycountry
 import collections
+import requests
 
-#TODO: automatically download the live oshwa list as the input file 
+url ='https://docs.google.com/spreadsheets/d/1gJHfoIyvU_ZUnMPu5pVvUQTfMr3ObmwplwwQRIbIy9Y/export?format=csv'
+r = requests.get(url, allow_redirects=True)
+open('oshwalist.csv', 'wb').write(r.content)
 
 #turns the csv into a list of lists [[x, y, z,], [a, b, c]]
 exampleFile = open('oshwalist.csv')
@@ -24,19 +27,27 @@ country_counter_list = []
 
 #work through the list to pull the data
 for row in oshwadata:
-    #replaces the UID with the alpha_3 country code to match the json
-    #gets the country by pulling the first 2 characters from the UID
-    country = pycountry.countries.get(alpha_2=row[0][:2])
-    #replaces the UID with the alpha_3 country code
-    row[0] = country.alpha_3
+    #I stupidly used the non-standard UK intead of GB when assiging UIDs
+    #So this is a kludge so that the lookup will work
+    #because looking up UK will result in nothing happening
+    if row[0][:2] == 'UK':
+        country = pycountry.countries.get(alpha_2='GB')
+        row[0] = country.alpha_3
+        country_counter_list.append(row[0])
+    else:
+        #replaces the UID with the alpha_3 country code to match the json
+        #gets the country by pulling the first 2 characters from the UID
+        country = pycountry.countries.get(alpha_2=row[0][:2])
+        #replaces the UID with the alpha_3 country code
+        row[0] = country.alpha_3
 
-    #add the country code to the list for future counting
-    country_counter_list.append(row[0])
+        #add the country code to the list for future counting
+        country_counter_list.append(row[0])
 
 #creates a dictionary with country as key and number of occurances as value
 counter = collections.Counter(country_counter_list)
 print(counter)
-print(counter['BGR'])
+
 
 # goes through each country and fills in the appropriate number of registrations
 for i in range(0, len(country_data["features"])):
